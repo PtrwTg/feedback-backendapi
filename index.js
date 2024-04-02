@@ -1,3 +1,4 @@
+const Feedback = require('./feedbackModel');
 const express = require('express');
 const mongoose = require('mongoose');
 const multer = require('multer');
@@ -5,10 +6,12 @@ const cloudinary = require('cloudinary').v2;
 const cors = require('cors');
 require('dotenv').config();
 
+// Import Feedback Model
+const Feedback = require('./feedbackModel');
+
 const app = express();
 app.use(express.json());
 app.use(cors());
-
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -25,16 +28,6 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
-// Create Feedback Schema
-const feedbackSchema = new mongoose.Schema({
-  songName: String,
-  songUrl: String,
-  prediction: String,
-  accuracy: String,
-});
-
-const Feedback = mongoose.model('Feedback', feedbackSchema);
 
 // Configure Multer for file upload
 const upload = multer({ dest: 'uploads/' });
